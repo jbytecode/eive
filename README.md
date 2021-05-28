@@ -3,6 +3,15 @@ An R package for Errors-in-variables estimation in linear regression
 
 ## Installation
 
+### Install stable version from CRAN
+
+```R
+install.packages("eive")
+```
+
+
+### Install development version 
+
 Please install ```devtools``` package before installing ```eive```:
 
 ```R
