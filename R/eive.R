@@ -75,68 +75,54 @@ eive.cga <- function(dirtyx,
 
 
 
-meive.cga <- function(dirtyxmat,
-                      otherx = NULL,
-                      y,
-                      numdummiesforeach = 10,
-                      popsize = 20) {
-    ols_dirty <- NULL
-    ols_best <- NULL
-    num_dirtyx <- ncol(dirtyxmat)
-    num_dummies <- numdummiesforeach * num_dirtyx
-    n <- length(y)
 
-    get_x_proxies <- function(bits) {
-        bits_mat <- matrix(bits, nrow = n)
-        m <- 1
-        x_proxies <- matrix(0, ncol = num_dirtyx, nrow = n)
-        for (i in 1:num_dirtyx) {
-            bits_submat <- bits_mat[, m:(m + numdummiesforeach - 1)]
-            ols_proxy <- lm.fit(cbind(1, bits_submat), dirtyxmat[, i])
-            x_proxy <- ols_proxy$fitted.values
-            x_proxies[, i] <- x_proxy
-            m <- m + numdummiesforeach
-        }
-        return(x_proxies)
+
+
+
+
+# eive with multiple y values 
+eivem <- function (dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20){
+  ols.dirty <- list()
+  ols.proxy <- NULL
+  ols.best <- list()
+  my.dim <- dim(y)
+  n <- my.dim[1]
+  yp <- my.dim[2]
+  f <- function(d) {
+    ols <- NULL
+    m <- matrix(d, nrow = n)
+    ols.proxy <- lm.fit(cbind(1, m), dirtyx)
+    x.proxy <- ols.proxy$fitted.values
+    square.sums <- 0
+    for (reg.index in 1:yp){
+      if (is.null(otherx)) {
+        ols <- lm.fit(cbind(1, x.proxy), y[,reg.index])
+      }
+      else {
+        ols <- lm.fit(cbind(1, x.proxy, otherx), y[,reg.index])
+      }
+      square.sums <- square.sums + sum(ols$residuals^2)
     }
-
-    cost <- function(bits) {
-        ols <- NULL
-        x_proxies <- get_x_proxies(bits)
-        if (is.null(otherx)) {
-            ols <- lm.fit(cbind(1, x_proxies), y)
-        } else {
-            ols <- lm.fit(cbind(1, x_proxies, otherx), y)
-        }
-        return(sum(ols$residuals^2))
-    }
-
-    ga <- cga(
-        evalFunc = cost,
-        chsize = n * numdummiesforeach * num_dirtyx,
-        popsize = popsize
-    )
-
-    best_bits <- as.integer(ga)
-
+    return(square.sums)
+  }
+  g <- cmpfun(f)
+  ga <- cga(evalFunc = f, chsize = n * numdummies, popsize = popsize)
+  best <- as.integer(ga)
+  for (reg.index in 1:yp){
     if (is.null(otherx)) {
-        ols_dirty <- lm(y ~ dirtyxmat)
-    } else {
-        ols_dirty <- lm(y ~ cbind(dirtyxmat, otherx))
+      ols.dirty[[reg.index]] <- lm(y[,reg.index] ~ dirtyx)
     }
-
-    clean_x_mat <- get_x_proxies(best_bits)
+    else {
+      ols.dirty[[reg.index]] <- lm(y[,reg.index] ~ dirtyx + otherx)
+    }
+    ols.proxy <- lm(dirtyx ~ matrix(best, nrow = n))
     if (is.null(otherx)) {
-        ols_best <- lm(y ~ clean_x_mat)
-    } else {
-        ols_best <- lm(y ~ cbind(clean_x_mat, otherx))
+      ols.best[[reg.index]] <- lm(y[,reg.index] ~ ols.proxy$fitted.values)
     }
-
-    result <- list(
-        ols = ols_dirty,
-        eive = ols_best,
-        corrected_x_mat = clean_x_mat
-    )
-
-    return(result)
+    else {
+      ols.best[[reg.index]] <- lm(y[,reg.index] ~ ols.proxy$fitted.values + otherx)
+    }
+  } #end of for loop
+  result <- list(ols = ols.dirty, eive = ols.best, proxy = ols.proxy)
+  return(result)
 }
