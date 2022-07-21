@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // cga_generate_chromosome
 NumericVector cga_generate_chromosome(NumericVector prob_vec);
 RcppExport SEXP _eive_cga_generate_chromosome(SEXP prob_vecSEXP) {

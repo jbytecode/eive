@@ -2,7 +2,7 @@ Package: eive
 Type: Package
 Title: An Algorithm for Reducing Errors-in-Variable Bias in Simple
         Linear Regression
-Version: 3.0
+Version: 3.1
 Date: 2021-05-28
 Author: Mehmet Hakan Satman (Ph.D.), Erkin Diyarbakirlioglu (Ph.D.)
 Maintainer: Mehmet Hakan Satman <mhsatman@istanbul.edu.tr>
@@ -16,4 +16,4 @@ Repository: CRAN
 Date/Publication: 2018-05-16 21:38:11 UTC
 Suggests: 
     testthat
-
+RoxygenNote: 7.2.0
