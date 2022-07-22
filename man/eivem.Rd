@@ -15,7 +15,7 @@ Vector of values of independent variable measured with error
 Matrix of other independent variables.
 }
   \item{y}{
-Vector of values of dependent variable
+Matrix of values of dependent variables. In column represent a single Y, each row represents an observation. So y is an nxp matrix of p dependent variables.
 }
   \item{numdummies}{
 Number of dummy variables used in algorithm. By default, it is 10.

@@ -1,3 +1,5 @@
+library(compiler)
+
 eivem <- function(dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20) {
   ols_dirty <- list()
   ols_proxy <- NULL
