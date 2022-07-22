@@ -1,4 +1,4 @@
-library("testthat")
+library(testthat)
 library(eive)
 
 test_that("Multivariate Eive - three y variables - n = 30", {
@@ -34,12 +34,6 @@ test_that("Multivariate Eive - three y variables - n = 30", {
 
     ols_coefs <- ols$coefficients
     eive_coefs <- eive$coefficients
-
-    # print("OLS:")
-    # print(ols_coefs)
-    # print("MEIVE:")
-    # print(eive_coefs)
-
 
     distance1 <- sum((ols_coefs - real_coefs)^2)
     distance2 <- sum((eive_coefs - real_coefs)^2)
