@@ -38,7 +38,7 @@ Erkin Diyarbakirlioglu <ediyarbakirlioglu@gmail.com>
 }
 \description{
 Method performs a genetic search to find dummy variables that used in a two stage linear regression to reduce errors-in-variables
-bias in linear regression.
+bias in linear regression. This is the multivariate version of the CGA based EIVE algorithm.
 }
 
 \examples{
@@ -53,15 +53,16 @@ require ("eive")
 set.seed(12345)
 
 # Number of observations is set to 30
-n<-30
+n <- 30
 
 # Unobserved X values are drawn from a Normal distribution
 # with mean 10 and variance 7
-clean.x <- rnorm(n, mean=10, sd=sqrt(7))
+clean_x1 <- rnorm(n, mean=10, sd=sqrt(7))
+clean_x2 <- rnorm(n, mean=10, sd=sqrt(7))
 
 # Measurement error values are dranw from a Normal distribution
 # with mean 0 and variance 3
-delta.x <- rnorm(n, mean=0,  sd=sqrt(3))
+delta_x1 <- rnorm(n, mean=0,  sd=sqrt(3))
 
 # Error term of regression. Normally distributed with mean 0 and 
 # variance 5
@@ -69,56 +70,85 @@ e <- rnorm(n, mean=0, sd=sqrt(5))
 
 # Generating Y values using the linear model
 # In this model, intercept is 20 and slope is 10. 
-y<- 20 + 10* clean.x + e
+y1 <- 20 + 10 * clean_x1 + 10 * clean_x2 + e
+y2 <- 10 + 5 * clean_x1  + 5 * clean_x2 + e
 
 # Generating observed X values by adding measurement errors
 # to unobserved X
-dirty.x <- clean.x + delta.x
+dirty_x1 <- clean_x1 + delta_x1
 
 # Performs a genetic search to find dummy variables that
 # used in two stage least squares.
 # Please un-comment the line below
-# result <- eive.cga (dirtyx=dirty.x, y=y, numdummies=10)
+result <- eivem (dirtyx = dirty_x1, y=cbind(y1, y2), numdummies=10)
 
 # Print the result
 # Please un-comment the line below
 # print(result)
 
 ########################################### OUTPUT #############################################
-# $ols
+#> result
+#$ols
+#$ols[[1]]
 #
-# Call:
-# lm(formula = y ~ dirtyx)
-# 
-# Coefficients:
-# (Intercept)       dirtyx  
-#     63.590        5.533  
+#Call:
+#lm(formula = y[, reg.index] ~ dirtyx)
 #
-#
-# $eive
-# 
-# Call:
-# lm(formula = y ~ ols.proxy$fitted.values)
-#
-# Coefficients:
-#            (Intercept)  ols.proxy$fitted.values  
-#                 23.863                    9.229  
+#Coefficients:
+#(Intercept)       dirtyx  
+#    156.975        6.696  
 #
 #
-# $proxy
+#$ols[[2]]
 #
-# Call:
-# lm(formula = dirtyx ~ matrix(best, nrow = n))
-# 
-# Coefficients:
-#              (Intercept)   matrix(best, nrow = n)1   matrix(best, nrow = n)2  
-#                 12.9321                   -0.6252                   -1.9923  
+#Call:
+#lm(formula = y[, reg.index] ~ dirtyx)
+#
+#Coefficients:
+#(Intercept)       dirtyx  
+#     79.826        3.229  
+#
+#
+#
+#$eive
+#$eive[[1]]
+#
+#Call:
+#lm(formula = y[, reg.index] ~ ols_proxy$fitted.values)
+#
+#Coefficients:
+#            (Intercept)  ols_proxy$fitted.values  
+#                  20.05                    19.19  
+#
+#
+#$eive[[2]]
+#
+#Call:
+#lm(formula = y[, reg.index] ~ ols_proxy$fitted.values)
+#
+#Coefficients:
+#            (Intercept)  ols_proxy$fitted.values  
+#                 11.451                    9.466  
+#
+#
+#
+#$proxy
+#
+#Call:
+#lm(formula = dirtyx ~ matrix(best, nrow = n))
+#
+#Coefficients:
+#             (Intercept)   matrix(best, nrow = n)1   matrix(best, nrow = n)2  
+#                 9.60535                   0.51227                   3.35246  
 # matrix(best, nrow = n)3   matrix(best, nrow = n)4   matrix(best, nrow = n)5  
-#                  0.7537                   -0.7076                   -0.5247  
+#                 0.05283                  -0.87955                  -0.62274  
 # matrix(best, nrow = n)6   matrix(best, nrow = n)7   matrix(best, nrow = n)8  
-#                 -0.9196                   -2.0802                   -0.9246  
+#                -0.52760                   1.50575                  -0.68810  
 # matrix(best, nrow = n)9  matrix(best, nrow = n)10  
-#                 -0.6164                    1.9694  
+#                 0.27033                   0.37630  
+#
+#
+#
 ######################################### END OF OUTPUT ##########################################
 
 }
