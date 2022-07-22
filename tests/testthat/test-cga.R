@@ -27,3 +27,12 @@ test_that("CGA - All 100 bits are 0s", {
     result <- cga(n, 100, f)
     expect_equal(result, rep(0, n))
 })
+
+test_that("CGA - Generate Chromosome", {
+    probs <- rep(0.5, 10)
+    result <- cga_generate_chromosome(probs)
+    for (element in result) {
+        expect_gte(element, 0.0)
+        expect_lte(element, 1.0)
+    }
+})

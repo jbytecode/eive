@@ -55,8 +55,9 @@ eive.cga <- function(dirtyx,
         chsize = n * numdummies,
         popsize = popsize
     )
-    # best<-cga_generate_chromosome(ga)
+    
     best <- as.integer(ga)
+
     if (is.null(otherx)) {
         ols_dirty <- lm(y ~ dirtyx)
     } else {
@@ -71,7 +72,12 @@ eive.cga <- function(dirtyx,
         ols_best <- lm(y ~ ols_proxy$fitted.values + otherx)
     }
 
-    result <- list(ols = ols_dirty, eive = ols_best, proxy = ols_proxy)
+    result <- list(
+      ols = ols_dirty,
+      eive = ols_best,
+      proxy = ols_proxy
+    )
+    
     return(result)
 }
 
