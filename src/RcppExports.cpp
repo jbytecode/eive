@@ -6,42 +6,44 @@
 using namespace Rcpp;
 
 #ifdef RCPP_USE_GLOBAL_ROSTREAM
-Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
-Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+Rcpp::Rostream<true> &Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false> &Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // cga_generate_chromosome
 NumericVector cga_generate_chromosome(NumericVector prob_vec);
-RcppExport SEXP _eive_cga_generate_chromosome(SEXP prob_vecSEXP) {
-BEGIN_RCPP
+RcppExport SEXP _eive_cga_generate_chromosome(SEXP prob_vecSEXP)
+{
+    BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type prob_vec(prob_vecSEXP);
+    Rcpp::traits::input_parameter<NumericVector>::type prob_vec(prob_vecSEXP);
     rcpp_result_gen = Rcpp::wrap(cga_generate_chromosome(prob_vec));
     return rcpp_result_gen;
-END_RCPP
+    END_RCPP
 }
 // cga
 NumericVector cga(int chsize, int popsize, Function evalFunc);
-RcppExport SEXP _eive_cga(SEXP chsizeSEXP, SEXP popsizeSEXP, SEXP evalFuncSEXP) {
-BEGIN_RCPP
+RcppExport SEXP _eive_cga(SEXP chsizeSEXP, SEXP popsizeSEXP, SEXP evalFuncSEXP)
+{
+    BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type chsize(chsizeSEXP);
-    Rcpp::traits::input_parameter< int >::type popsize(popsizeSEXP);
-    Rcpp::traits::input_parameter< Function >::type evalFunc(evalFuncSEXP);
+    Rcpp::traits::input_parameter<int>::type chsize(chsizeSEXP);
+    Rcpp::traits::input_parameter<int>::type popsize(popsizeSEXP);
+    Rcpp::traits::input_parameter<Function>::type evalFunc(evalFuncSEXP);
     rcpp_result_gen = Rcpp::wrap(cga(chsize, popsize, evalFunc));
     return rcpp_result_gen;
-END_RCPP
+    END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_eive_cga_generate_chromosome", (DL_FUNC) &_eive_cga_generate_chromosome, 1},
-    {"_eive_cga", (DL_FUNC) &_eive_cga, 3},
-    {NULL, NULL, 0}
-};
+    {"_eive_cga_generate_chromosome", (DL_FUNC)&_eive_cga_generate_chromosome, 1},
+    {"_eive_cga", (DL_FUNC)&_eive_cga, 3},
+    {NULL, NULL, 0}};
 
-RcppExport void R_init_eive(DllInfo *dll) {
+RcppExport void R_init_eive(DllInfo *dll)
+{
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
