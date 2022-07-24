@@ -38,4 +38,11 @@ test_that("eive.cga classical example", {
 
     expect_equal(as.vector(par_eive), c(23.863, 9.229), tolerance = tol)
     expect_equal(as.vector(par_ols), c(63.590, 5.533), tolerance = tol)
+
+    result_names <- names(result)
+    expect_true("ols" %in% result_names)
+    expect_true("eive" %in% result_names)
+    expect_true("proxy" %in% result_names)
+    expect_true("cleanedx" %in% result_names)
+    expect_true("measurementerror" %in% result_names)
 })

@@ -41,4 +41,11 @@ test_that("Multivariate Eive - three y variables - n = 30", {
     expect_true(
         distance1 > distance2
     )
+
+    result_names <- names(result)
+    expect_true("ols" %in% result_names)
+    expect_true("eive" %in% result_names)
+    expect_true("proxy" %in% result_names)
+    expect_true("cleanedx" %in% result_names)
+    expect_true("measurementerror" %in% result_names)
 })

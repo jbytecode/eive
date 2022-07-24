@@ -31,6 +31,8 @@ Algorithm performs a genetic search to separate mismeasured independent variable
  \item{ols}{lm object calculated using original values}
  \item{eive}{lm object calculated using the predicted variable by eive}
  \item{proxy}{lm object of proxy regression obtained by genetic search.}
+ \item{cleanedx}{Error-free estimate of the x variable (dirtyx) that is measured with error.}
+ \item{measurementerror}{Estimate of the measurement error.}
 }
 \author{
 Mehmet Hakan Satman <mhsatman@istanbul.edu.tr>

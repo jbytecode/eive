@@ -72,10 +72,14 @@ eive.cga <- function(dirtyx,
         ols_best <- lm(y ~ ols_proxy$fitted.values + otherx)
     }
 
+    cleanedx <- result$proxy$fitted.values
+    
     result <- list(
       ols = ols_dirty,
       eive = ols_best,
-      proxy = ols_proxy
+      proxy = ols_proxy,
+      cleanedx = cleanedx,
+      measurementerror = cleanedx - dirtyx
     )
     
     return(result)
