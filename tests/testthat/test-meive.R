@@ -48,4 +48,8 @@ test_that("Multivariate Eive - three y variables - n = 30", {
     expect_true("proxy" %in% result_names)
     expect_true("cleanedx" %in% result_names)
     expect_true("measurementerror" %in% result_names)
+
+    for (i in 1:length(result$measurementerror)) {
+        expect_equal(result$proxy$residuals[i], result$measurementerror[i])
+    }
 })

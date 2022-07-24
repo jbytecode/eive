@@ -45,14 +45,15 @@ eivem <- function(dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20) {
     }
   } # end of for loop
   
-  cleanedx <- result$proxy$fitted.values
-
+   cleanedx <- ols_proxy$fitted.values
+   measurementerror <- ols_proxy$residuals
+  
   result <- list(
     ols = ols_dirty,
     eive = ols_best,
     proxy = ols_proxy,
     cleanedx = cleanedx,
-    measurementerror = cleanedx - dirtyx
+    measurementerror = measurementerror
   )
   
   return(result)
