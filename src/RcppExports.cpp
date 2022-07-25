@@ -11,14 +11,14 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // cga_generate_chromosome
-NumericVector cga_generate_chromosome(NumericVector prob_vec);
-RcppExport SEXP _eive_cga_generate_chromosome(SEXP prob_vecSEXP) {
+void cga_generate_chromosome(NumericVector prob_vec, NumericVector vect);
+RcppExport SEXP _eive_cga_generate_chromosome(SEXP prob_vecSEXP, SEXP vectSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type prob_vec(prob_vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(cga_generate_chromosome(prob_vec));
-    return rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type vect(vectSEXP);
+    cga_generate_chromosome(prob_vec, vect);
+    return R_NilValue;
 END_RCPP
 }
 // cga
@@ -36,7 +36,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_eive_cga_generate_chromosome", (DL_FUNC) &_eive_cga_generate_chromosome, 1},
+    {"_eive_cga_generate_chromosome", (DL_FUNC) &_eive_cga_generate_chromosome, 2},
     {"_eive_cga", (DL_FUNC) &_eive_cga, 3},
     {NULL, NULL, 0}
 };

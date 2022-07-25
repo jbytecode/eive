@@ -2,10 +2,9 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericVector cga_generate_chromosome(NumericVector prob_vec)
+void cga_generate_chromosome(NumericVector prob_vec, NumericVector vect)
 {
 	int len_prob_vec = prob_vec.length();
-	NumericVector vect(len_prob_vec);
 	NumericVector unifs = runif(len_prob_vec);
 	int i;
 	for (i = 0; i < len_prob_vec; i++)
@@ -13,22 +12,25 @@ NumericVector cga_generate_chromosome(NumericVector prob_vec)
 		if (unifs[i] < prob_vec[i])
 		{
 			vect[i] = 1;
+		}else{
+			vect[i] = 0;
 		}
 	}
-	return (vect);
 }
 
 // [[Rcpp::export]]
 NumericVector cga(int chsize, int popsize, Function evalFunc)
 {
 	NumericVector prob_vec = rep(0.5, chsize);
-	NumericVector chromosome1, chromosome2, winner, loser;
+	NumericVector chromosome1(chsize);
+	NumericVector chromosome2(chsize);
+	NumericVector winner, loser;
 	NumericVector cost1, cost2;
 	int i, t;
 	while (1)
 	{
-		chromosome1 = cga_generate_chromosome(prob_vec);
-		chromosome2 = cga_generate_chromosome(prob_vec);
+		cga_generate_chromosome(prob_vec, chromosome1);
+		cga_generate_chromosome(prob_vec, chromosome2);
 		cost1 = evalFunc(chromosome1);
 		cost2 = evalFunc(chromosome2);
 		winner = chromosome1;
