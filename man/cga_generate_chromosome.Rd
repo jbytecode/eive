@@ -7,12 +7,15 @@ cga_generate_chromosome
 Generates vector of zeros and ones for a given probability vector. 
 }
 \usage{
-cga_generate_chromosome(prob_vec)
+cga_generate_chromosome(prob_vec, vect)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{prob_vec}{
+\item{prob_vec}{
 Vector of probabilities. 
+}
+\item{vect}{
+Integer vector with the same number elements of probabilities. The returned 0-1 vector is held by this variable.
 }
 }
 \details{
@@ -22,7 +25,7 @@ of BK having the value of 1 is PK. So, it has more chance to have [1,1,1,0,0] th
 [0.9,0.9,0.9,0.1,0.1]. 
 }
 \value{
-Returns the generated chromosome for a given probability vector. Return type is vector.
+Returns NULL. The wrapped C++ function returns void. The result is held by the `vect` argument.
 }
 \author{
 Mehmet Hakan Satman <mhsatman@istanbul.edu.tr>
