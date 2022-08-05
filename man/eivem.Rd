@@ -12,7 +12,7 @@ eivem(dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20)
 Vector of values of independent variable measured with error
 }
   \item{otherx}{
-Matrix of other independent variables.
+Matrix of other independent variables. These variables are supposed to be clean, that is, they are not measures subject to errors.
 }
   \item{y}{
 Matrix of values of dependent variables. In column represent a single Y, each row represents an observation. So y is an nxp matrix of p dependent variables.
@@ -68,12 +68,13 @@ delta_x1 <- rnorm(n, mean=0,  sd=sqrt(3))
 
 # Error term of regression. Normally distributed with mean 0 and 
 # variance 5
-e <- rnorm(n, mean=0, sd=sqrt(5))
+e1 <- rnorm(n, mean=0, sd=sqrt(5))
+e2 <- rnorm(n, mean=0, sd=sqrt(5))
 
 # Generating Y values using the linear model
 # In this model, intercept is 20 and slope is 10. 
-y1 <- 20 + 10 * clean_x1 + 10 * clean_x2 + e
-y2 <- 10 + 5 * clean_x1  + 5 * clean_x2 + e
+y1 <- 20 + 10 * clean_x1 + 10 * clean_x2 + e1
+y2 <- 10 + 5 * clean_x1  + 5 * clean_x2 + e2
 
 # Generating observed X values by adding measurement errors
 # to unobserved X
@@ -82,7 +83,7 @@ dirty_x1 <- clean_x1 + delta_x1
 # Performs a genetic search to find dummy variables that
 # used in two stage least squares.
 # Please un-comment the line below
-result <- eivem (dirtyx = dirty_x1, y=cbind(y1, y2), numdummies=10)
+result <- eivem (dirtyx = dirty_x1, otherx = clean_x2, y=cbind(y1, y2), numdummies=10)
 
 # Print the result
 # Please un-comment the line below
@@ -90,67 +91,88 @@ result <- eivem (dirtyx = dirty_x1, y=cbind(y1, y2), numdummies=10)
 
 ########################################### OUTPUT #############################################
 #> result
-#$ols
-#$ols[[1]]
-#
-#Call:
-#lm(formula = y[, reg.index] ~ dirtyx)
-#
-#Coefficients:
-#(Intercept)       dirtyx  
-#    156.975        6.696  
-#
-#
-#$ols[[2]]
-#
-#Call:
-#lm(formula = y[, reg.index] ~ dirtyx)
-#
-#Coefficients:
-#(Intercept)       dirtyx  
-#     79.826        3.229  
-#
-#
-#
-#$eive
-#$eive[[1]]
-#
-#Call:
-#lm(formula = y[, reg.index] ~ ols_proxy$fitted.values)
-#
-#Coefficients:
-#            (Intercept)  ols_proxy$fitted.values  
-#                  20.05                    19.19  
-#
-#
-#$eive[[2]]
-#
-#Call:
-#lm(formula = y[, reg.index] ~ ols_proxy$fitted.values)
-#
-#Coefficients:
-#            (Intercept)  ols_proxy$fitted.values  
-#                 11.451                    9.466  
-#
-#
-#
-#$proxy
-#
-#Call:
-#lm(formula = dirtyx ~ matrix(best, nrow = n))
-#
-#Coefficients:
-#             (Intercept)   matrix(best, nrow = n)1   matrix(best, nrow = n)2  
-#                 9.60535                   0.51227                   3.35246  
-# matrix(best, nrow = n)3   matrix(best, nrow = n)4   matrix(best, nrow = n)5  
-#                 0.05283                  -0.87955                  -0.62274  
-# matrix(best, nrow = n)6   matrix(best, nrow = n)7   matrix(best, nrow = n)8  
-#                -0.52760                   1.50575                  -0.68810  
-# matrix(best, nrow = n)9  matrix(best, nrow = n)10  
-#                 0.27033                   0.37630  
-#
-#
-#
+# $ols
+# $ols[[1]]
+# 
+# Call:
+# lm(formula = y[, reg.index] ~ dirtyx + otherx)
+# 
+# Coefficients:
+# (Intercept)       dirtyx       otherx  
+#      54.141        6.067       10.137  
+# 
+# 
+# $ols[[2]]
+# 
+# Call:
+# lm(formula = y[, reg.index] ~ dirtyx + otherx)
+# 
+# Coefficients:
+# (Intercept)       dirtyx       otherx  
+#      24.814        3.205        5.089  
+# 
+# 
+# 
+# $eive
+# $eive[[1]]
+# 
+# Call:
+# lm(formula = y[, reg.index] ~ ols_proxy$fitted.values + otherx)
+# 
+# Coefficients:
+#             (Intercept)  ols_proxy$fitted.values                   otherx  
+#                  24.737                    9.727                    9.147  
+# 
+# 
+# $eive[[2]]
+# 
+# Call:
+# lm(formula = y[, reg.index] ~ ols_proxy$fitted.values + otherx)
+# 
+# Coefficients:
+#             (Intercept)  ols_proxy$fitted.values                   otherx  
+#                   8.313                    5.240                    4.552  
+# 
+# 
+
+# $proxy
+# 
+# Call:
+# lm(formula = dirtyx ~ matrix(best, nrow = n))
+# 
+# Coefficients:
+#              (Intercept)   matrix(best, nrow = n)1   matrix(best, nrow = n)2  
+#                 6.314397                 -0.211580                  1.729143  
+#  matrix(best, nrow = n)3   matrix(best, nrow = n)4   matrix(best, nrow = n)5  
+#                 1.994915                  0.947531                 -0.363107  
+#  matrix(best, nrow = n)6   matrix(best, nrow = n)7   matrix(best, nrow = n)8  
+#                 0.001768                  1.742553                 -0.023750  
+#  matrix(best, nrow = n)9  matrix(best, nrow = n)10  
+#                 0.134750                  2.324853  
+# 
+# 
+# $cleanedx
+#         1         2         3         4         5         6         7         8 
+# 12.730307 12.130102 11.065586  9.795474 12.697138  6.450915 12.673388 10.516553 
+#         9        10        11        12        13        14        15        16 
+# 11.095771  7.981887 11.694464 14.841812 11.098755 12.290371  8.988344 12.704789 
+#        17        18        19        20        21        22        23        24 
+#  7.671861  9.477178 13.458999 10.964004 11.465852 14.591473  9.771724  6.239335 
+#        25        26        27        28        29        30 
+#  6.425397 15.031410  8.992839 12.808138 13.435249  9.799758 
+# 
+# $measurementerror
+#          1          2          3          4          5          6          7 
+# -0.9220426 -2.5783644 -0.3964263  1.7585818 -2.1106159 -4.4345451  0.5319987 
+#          8          9         10         11         12         13         14 
+#  1.5127360 -0.9523682 -2.6583539 -1.9074299 -1.3927085 -1.9356982  3.1225578 
+#         15         16         17         18         19         20         21 
+#  1.4554922  1.0891572  1.4141792 -1.7600789  0.3310142  1.5952156  1.7146703 
+#         22         23         24         25         26         27         28 
+#  1.0669497 -2.0036393  3.9419318  1.0296643  2.9783401  0.8968531 -1.7001587 
+#         29         30 
+# -0.8864360  1.1995241 
+# 
 ######################################### END OF OUTPUT ##########################################
 
 }

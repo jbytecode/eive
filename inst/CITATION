@@ -10,14 +10,15 @@ citEntry(
   volume= 85,
   number= 16,
   pages = "3216--3235",
-  year = 2015 ,
+  year = 2015,
   publisher= "Taylor & Francis",
+  doi = "10.1080/00949655.2014.961157",
 
   textVersion  = paste(
 "Satman, M. Hakan, and Erkin Diyarbakirlioglu", 
 "Reducing errors-in-variables bias in linear regression using compact genetic algorithms.",
 "Journal of Statistical Computation and Simulation",
-"85.16 (2015): 3216-3235.")
+"85.16 (2015): 3216-3235., DOI: 10.1080/00949655.2014.961157")
 
 )
 
