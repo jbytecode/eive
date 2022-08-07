@@ -34,14 +34,3 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
-static const R_CallMethodDef CallEntries[] = {
-    {"_eive_cga_generate_chromosome", (DL_FUNC) &_eive_cga_generate_chromosome, 2},
-    {"_eive_cga", (DL_FUNC) &_eive_cga, 3},
-    {NULL, NULL, 0}
-};
-
-RcppExport void R_init_eive(DllInfo *dll) {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
-}

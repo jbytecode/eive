@@ -27,6 +27,7 @@ NumericVector cga(int chsize, int popsize, Function evalFunc)
 	NumericVector winner, loser;
 	NumericVector cost1, cost2;
 	int i, t;
+	double mutation = 1.0 / (double)popsize;
 	while (1)
 	{
 		cga_generate_chromosome(prob_vec, chromosome1);
@@ -47,11 +48,11 @@ NumericVector cga(int chsize, int popsize, Function evalFunc)
 			{
 				if (winner[i] == 1)
 				{
-					prob_vec[i] = prob_vec[i] + (1.0 / popsize);
+					prob_vec[i] = prob_vec[i] + mutation;
 				}
 				else
 				{
-					prob_vec[i] = prob_vec[i] - (1.0 / popsize);
+					prob_vec[i] = prob_vec[i] - mutation;
 				}
 			}
 		}
