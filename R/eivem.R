@@ -24,10 +24,10 @@ eivem <- function(dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20) {
     }
     return(square_sums)
   }
-  
+
   g <- cmpfun(f)
 
-  ga <- cga(evalFunc = f, chsize = n * numdummies, popsize = popsize)
+  ga <- cga(evalFunc = g, chsize = n * numdummies, popsize = popsize)
 
   best <- as.integer(ga)
 
@@ -41,13 +41,15 @@ eivem <- function(dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20) {
     if (is.null(otherx)) {
       ols_best[[reg.index]] <- lm(y[, reg.index] ~ ols_proxy$fitted.values)
     } else {
-      ols_best[[reg.index]] <- lm(y[, reg.index] ~ ols_proxy$fitted.values + otherx)
+      ols_best[[reg.index]] <- lm(
+        y[, reg.index] ~ ols_proxy$fitted.values + otherx
+      )
     }
   } # end of for loop
-  
-   cleanedx <- ols_proxy$fitted.values
-   measurementerror <- ols_proxy$residuals
-  
+
+  cleanedx <- ols_proxy$fitted.values
+  measurementerror <- ols_proxy$residuals
+
   result <- list(
     ols = ols_dirty,
     eive = ols_best,
@@ -55,8 +57,7 @@ eivem <- function(dirtyx, otherx = NULL, y, numdummies = 10, popsize = 20) {
     cleanedx = cleanedx,
     measurementerror = measurementerror
   )
-  
+
   return(result)
 }
 # End of function
-

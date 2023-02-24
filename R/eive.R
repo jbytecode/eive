@@ -27,6 +27,47 @@ generate.eive.data <- function(n,
 }
 
 
+eive.cga.formula <- function(
+    formula,
+    data, 
+    dirtyx.varname,
+    numdummies = 10,
+    popsize = 20
+){
+    if (!is.data.frame(data)) {
+        stop("data should be in type of data.frame")
+    }
+    if (!is.language(formula)) {
+        stop("formula should be in form of var ~ var + var ...")
+    }
+    if (!is.character(dirtyx.varname)) {
+        stop("dirtyx.varname should be in type of string")
+    }
+    designmat <- model.matrix(object = formula, data = data)
+    responsevar <- model.frame(formula = formula, data = data)
+    y <- responsevar[, 1]
+    n <- length(y)
+    p <- ncol(designmat)
+    dirtyx <- data[, dirtyx.varname]
+    otherx <- data[, setdiff(names(designmat), dirtyx.varname)]
+
+    if (ncol(otherx) > 0) {
+        firstcolumn <- as.vector(otherx[, 1])
+        if (all.equal(firstcolumn, rep(1, n))) {
+            otherx <- otherx[, 2:p]
+        }
+    }else{
+        otherx <- NULL
+    }
+    return(eive.cga(
+        dirtyx = dirtyx, 
+        otherx = otherx,
+        y = y, 
+        numdummies = numdummies, 
+        popsize = popsize
+    ))
+}
+
 
 eive.cga <- function(dirtyx,
                      otherx = NULL,
