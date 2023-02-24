@@ -26,6 +26,7 @@ generate.eive.data <- function(n,
     return(data)
 }
 
+
 #' Performs CGA based errors-in-variables correction for given formula and data.
 #' A single independent variable is supposed to be measured subject to error.
 #'
@@ -42,6 +43,7 @@ generate.eive.data <- function(n,
 #' @slot cleanedx Error-free estimate of the x variable (dirtyx) 
 #'       that is measured with error.
 #' @slot measurementerror Estimate of the measurement error.
+#' @export
 #' @examples
 #' set.seed(12345)
 #' n <- 30
@@ -129,6 +131,7 @@ eive.cga.formula <- function(
 #' @slot cleanedx Error-free estimate of the x variable (dirtyx)
 #'       that is measured with error.
 #' @slot measurementerror Estimate of the measurement error.
+#' @export 
 #' @examples 
 #' # Creating an artificial data
 #' # Loading required package

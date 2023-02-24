@@ -1,0 +1,8 @@
+useDynLib(eive)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
+importFrom("stats", "lm", "lm.fit", "rnorm")
+importFrom(compiler, cmpfun)
+export(eive.cga, eivem, cga)
+
+
