@@ -16,4 +16,4 @@ Repository: CRAN
 Date/Publication: 2018-05-16 21:38:11 UTC
 Suggests: 
     testthat
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
