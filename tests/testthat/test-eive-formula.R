@@ -1,8 +1,7 @@
 library(testthat)
 library(eive)
 
-test_that("eive.cga classical example", {
-
+test_that("eive.cga classical example using formula", {
     tol <- 0.01
 
     euclidean <- function(u, v) {
@@ -25,7 +24,14 @@ test_that("eive.cga classical example", {
 
     dirty_x <- clean_x + delta_x
 
-    result <- eive.cga(dirtyx = dirty_x, y = y, numdummies = 10)
+    mydata <- data.frame(y = y, dirtyx = dirty_x)
+
+    result <- eive.cga.formula(
+        formula = y ~ dirtyx,
+        dirtyx.varname = "dirtyx",
+        data = mydata,
+        numdummies = 10
+    )
 
     par_real <- c(20, 10)
     par_ols <- result$ols$coefficients
@@ -40,7 +46,7 @@ test_that("eive.cga classical example", {
     expect_equal(as.vector(par_ols), c(63.590, 5.533), tolerance = tol)
 
     L <- length(result$measurementerror)
-    for (i in 1:L){
+    for (i in 1:L) {
         expect_equal(result$proxy$residuals[i], result$measurementerror[i])
     }
 
@@ -51,4 +57,7 @@ test_that("eive.cga classical example", {
     expect_true("cleanedx" %in% result_names)
     expect_true("measurementerror" %in% result_names)
 })
+
+
+
 

@@ -43,29 +43,34 @@ eive.cga.formula <- function(
     if (!is.character(dirtyx.varname)) {
         stop("dirtyx.varname should be in type of string")
     }
-    designmat <- model.matrix(object = formula, data = data)
+    designmat <- as.data.frame(model.matrix(object = formula, data = data))
     responsevar <- model.frame(formula = formula, data = data)
     y <- responsevar[, 1]
     n <- length(y)
     p <- ncol(designmat)
-    dirtyx <- data[, dirtyx.varname]
-    otherx <- data[, setdiff(names(designmat), dirtyx.varname)]
+    dirtyx <- as.vector(data[, dirtyx.varname])
+    otherx <- designmat[, setdiff(names(designmat), dirtyx.varname)]
 
-    if (ncol(otherx) > 0) {
-        firstcolumn <- as.vector(otherx[, 1])
-        if (all.equal(firstcolumn, rep(1, n))) {
-            otherx <- otherx[, 2:p]
-        }
-    }else{
-        otherx <- NULL
+    if (is.vector(otherx)){
+        otherx <- as.matrix(otherx)
     }
-    return(eive.cga(
-        dirtyx = dirtyx, 
-        otherx = otherx,
-        y = y, 
-        numdummies = numdummies, 
-        popsize = popsize
-    ))
+    has.intercept <- all.equal(otherx[, 1], rep(1, n))
+    if (has.intercept) {
+        if (ncol(otherx) > 1) {
+            otherx <- as.matrix(otherx[, 2:(ncol(otherx))])
+        }else{
+            otherx <- NULL
+        }
+    }
+
+    return(
+        eive.cga(
+            dirtyx = dirtyx, 
+            otherx = otherx,
+            y = y, 
+            numdummies = numdummies, 
+            popsize = popsize
+        ))
 }
 
 
