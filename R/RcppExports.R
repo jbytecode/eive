@@ -18,6 +18,17 @@ cga_generate_chromosome <- function(prob_vec, vect) {
     invisible(.Call('_eive_cga_generate_chromosome', PACKAGE = 'eive', prob_vec, vect))
 }
 
+#' @name cga
+#' @title Compact Genetic Algorithm
+#' @description Performs a Compact Genetic Algorithm (CGA) search
+#' 	for a given chromosome size, population size (mutation rate), 
+#'     and an objective function. 
+#' @param chsize Number of bits.
+#' @param popsize Size of population. The value is used for mutating 
+#'		the probability vector by 1/popsize. 
+#' @param evalFunc Objective function.
+#' @return Binary vector of size chsize.
+#' @export
 cga <- function(chsize, popsize, evalFunc) {
     .Call('_eive_cga', PACKAGE = 'eive', chsize, popsize, evalFunc)
 }

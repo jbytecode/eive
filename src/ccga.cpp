@@ -31,6 +31,17 @@ void cga_generate_chromosome(NumericVector prob_vec, NumericVector vect)
 	}
 }
 
+//' @name cga
+//' @title Compact Genetic Algorithm
+//' @description Performs a Compact Genetic Algorithm (CGA) search
+//' 	for a given chromosome size, population size (mutation rate), 
+//'     and an objective function. 
+//' @param chsize Number of bits.
+//' @param popsize Size of population. The value is used for mutating 
+//'		the probability vector by 1/popsize. 
+//' @param evalFunc Objective function.
+//' @return Binary vector of size chsize.
+//' @export
 // [[Rcpp::export]]
 NumericVector cga(int chsize, int popsize, Function evalFunc)
 {
