@@ -1,7 +1,17 @@
 library(compiler)
 
-# Generates one or two exploratory variables linear model
-# with first one is subject to error
+#' Generates simulated errors-in-variables regression data
+#'
+#' @param n Number of observations
+#' @param e.sd Standard deviation of error term of regression
+#' @param delta.sd Standard deviation of error in exploratory variable
+#' @param seed Seed for random number generator. 12345 by default
+#' @param useotherx Logical. If TRUE, an additional independent variable is added.
+#' @return A matrix of variables.
+#' @slot xdelta Errorenous X variable
+#' @slot otherx Other X variable
+#' @slot y Response variable
+#' @export
 generate.eive.data <- function(n,
                                e.sd,
                                delta.sd,
@@ -12,6 +22,7 @@ generate.eive.data <- function(n,
     x <- rnorm(n)
     x1 <- NULL
     y <- NULL
+    data <- NULL
     if (useotherx) {
         x1 <- rnorm(n)
     }
@@ -22,7 +33,18 @@ generate.eive.data <- function(n,
     } else {
         y <- 5 + 5 * x + e
     }
-    data <- cbind(xdelta, x1, y)
+    if (useotherx) {
+        data <- data.frame(
+            xdelta = xdelta, 
+            xother = x1, 
+            y = y
+        )
+    }else{
+        data <- data.frame(
+            xdelta = xdelta, 
+            y = y
+        )
+    }
     return(data)
 }
 

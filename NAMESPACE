@@ -7,5 +7,6 @@ importFrom(compiler, cmpfun)
 export(eive.cga, eivem, cga)
 export(eive.cga.formula)
 export(cga_generate_chromosome)
+export(generate.eive.data)
 
 
