@@ -7,9 +7,9 @@
 cga_generate_chromosome(prob_vec, vect)
 }
 \arguments{
-\item{vect}{Vector of bits.}
+\item{prob_vec}{Vector of probabilities}
 
-\item{proc_vec}{Vector of probabilities}
+\item{vect}{Vector of bits.}
 }
 \value{
 Mutates the vect. Returns null.

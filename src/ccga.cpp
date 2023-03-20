@@ -10,7 +10,7 @@ using namespace Rcpp;
 //' 	The probability of BK having the value of 1 is PK. So, it has more chance to have
 //' 	[1, 1, 1, 0, 0] rather than [0, 0, 0, 1, 1] when the probability vector is
 //'  	[0.9, 0.9, 0.9, 0.1, 0.1]. 
-//' @param proc_vec Vector of probabilities
+//' @param prob_vec Vector of probabilities
 //' @param vect Vector of bits.
 //' @return Mutates the vect. Returns null.
 //' @export
