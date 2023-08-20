@@ -42,3 +42,5 @@ vignettes/*.pdf
 src/*.o
 src/*.so
 
+.DS_Store
+

@@ -1,5 +1,8 @@
+# v3.1.3 (Upcoming version)
+
 # v3.1.2
 - Add eive.cga.formula for lm() compatible regression settings.
+- Fix documentation
 
 # v3.1.1
 - Enhance document for multivariate eive (eivem)
