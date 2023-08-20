@@ -1,9 +1,9 @@
 Package: eive
 Type: Package
 Title: An Algorithm for Reducing Errors-in-Variable Bias in Simple
-        and Multiple Linear Regression
+        and Multiple Linear Regressions
 Version: 3.1.2
-Date: 2023-03-20
+Date: 2023-08-20
 Author: Mehmet Hakan Satman (Ph.D.), Erkin Diyarbakirlioglu (Ph.D.)
 Maintainer: Mehmet Hakan Satman <mhsatman@istanbul.edu.tr>
 Description: Performs a compact genetic algorithm search to reduce errors-in-variables bias in linear regression. The algorithm estimates the regression parameters with lower biases and higher variances but mean-square errors (MSEs) are reduced.  
@@ -13,7 +13,7 @@ LinkingTo: Rcpp
 Packaged: 2023-08-20 12:15:25 UTC; jbytecode
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2018-05-16 21:38:11 UTC
+Date/Publication: 2023-08-16 21:38:11 UTC
 Suggests: 
     testthat
 RoxygenNote: 7.2.3
